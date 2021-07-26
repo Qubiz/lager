@@ -46,19 +46,19 @@ ZUG_INLINE_CONSTEXPR struct send_down_rf_t
 template <typename ValueT, typename Xform, typename... ParentPtrs>
 ValueT initial_value(Xform&& xform, const std::tuple<ParentPtrs...>& parents)
 {
-    try {
+//    try {
         return std::apply(
             [&](auto&&... ps) {
                 return xform(zug::last)(detail::no_value{}, ps->current()...);
             },
             parents);
-    } catch (const no_value_error&) {
-        if constexpr (std::is_default_constructible<ValueT>::value) {
-            return ValueT{};
-        } else {
-            throw;
-        }
-    }
+//    } catch (const no_value_error&) {
+//        if constexpr (std::is_default_constructible<ValueT>::value) {
+//            return ValueT{};
+//        } else {
+//            throw;
+//        }
+//    }
 };
 
 /*!

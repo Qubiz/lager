@@ -28,9 +28,9 @@ std::decay_t<Whole> at_setter_impl(Whole&& whole, Part&& part, Key&& key)
 {
     auto r = std::forward<Whole>(whole);
     if (part.has_value()) {
-        try {
+//        try {
             r.at(std::forward<Key>(key)) = std::forward<Part>(part).value();
-        } catch (std::out_of_range const&) {}
+//        } catch (std::out_of_range const&) {}
     }
     return r;
 }
@@ -44,11 +44,11 @@ template <
 std::decay_t<Whole> at_setter_impl(Whole&& whole, Part&& part, Key&& key)
 {
     if (part.has_value()) {
-        try {
+//        try {
             (void) whole.at(std::forward<Key>(key));
             return std::forward<Whole>(whole).set(
                 std::forward<Key>(key), std::forward<Part>(part).value());
-        } catch (std::out_of_range const&) {}
+//        } catch (std::out_of_range const&) {}
     }
     return std::forward<Whole>(whole);
 }
@@ -68,11 +68,11 @@ auto at(Key key)
         return [f = LAGER_FWD(f), &key](auto&& whole) {
             using Part = std::optional<std::decay_t<decltype(whole.at(key))>>;
             return f([&]() -> Part {
-                try {
+//                try {
                     return LAGER_FWD(whole).at(key);
-                } catch (std::out_of_range const&) {
-                    return std::nullopt;
-                }
+//                } catch (std::out_of_range const&) {
+//                    return std::nullopt;
+//                }
             }())([&](Part part) {
                 return detail::at_setter_impl(
                     LAGER_FWD(whole), std::move(part), key);
